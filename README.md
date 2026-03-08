@@ -1,16 +1,16 @@
-# 1.3.1-Porject
-
 import turtle as trtl
 import time
 
 
 wn = trtl.Screen()
 wn.bgcolor("lime")
-
+image = "cookie.gif"
+wn.addshape(image)
 
 cookie = trtl.Turtle()
 cookie.penup()
-
+cookie.hideturtle()
+cookie.shape(image)
 
 envelope = trtl.Turtle()
 envelope.penup()
@@ -35,10 +35,10 @@ line.hideturtle()
 card.speed(0)
 message_font = ("Verdana", 14, "normal")
 message = (
-    "Good morning Mr. Dunlee,\n\n"
+    "Good morning senior citizen,\n\n"
     "I’m so glad you’re in good health. \n"
     "I miss you so dearly. \nWhen I was baking yesterday, \n"
-    "I thought I’d bring you some cookies.\n\n"
+    "I thought I’d bring you a cookie.\n\n"
     "They’re under the envelope. \nI hope you enjoy them!\n\n"
     "Sincerely,\n"
     "Pear, Talon & Kiran."
@@ -49,6 +49,7 @@ message = (
 
 def open_card():
   #stage 1 of card opening, card is still in the envelope
+  flip_open()
   writer.clear()
   card.goto(-200, 300)
   card.pendown()
@@ -86,6 +87,7 @@ def full_open():
   card.forward(500)
   card.end_fill()
   type_message(message)
+  wn.onkeypress(reveal_cookies, "a")
 
 
 def write_ui_1():
@@ -103,12 +105,27 @@ def write_ui_2():
 
 def final_ui():
   writer.clear()
-  writer.goto(0, -350)
-  writer.write("Press 'A' to reveal cookies!", font=font_setup, align="center")
+  writer.goto(0, -100)
+  wn.onkeypress(reveal_cookies, "a")
 
+def reveal_cookies():
+   line.clear()
+   writer.clear()
+   card.clear()
+   envelope.clear()
+   cookie.showturtle()
 
-#def reveal_cookies():
- 
+def flip_open():
+   line.fillcolor("lightblue")
+   line.goto(225, 150)
+   line.begin_fill()
+   line.goto(0, 20)
+   line.goto(-225, 150)
+   line.goto(0 , 280)
+   line.goto(225, 150)
+   line.end_fill()
+   line.pencolor("gray")
+   line.goto(-225, 150)
 
 
 def type_message(text):
@@ -123,6 +140,8 @@ def type_message(text):
         writer.write(current_text, font=message_font, align="left")
         # Adjusting the sleep time changes typing speed
         time.sleep(0.0)
+    writer.goto(0, -240)
+    writer.write("Press 'A' to reveal the cookie!", font=font_setup, align="center")
 
 
 
@@ -152,6 +171,7 @@ line.hideturtle()
 
 write_ui_1()
 wn.onkeypress(open_card, "a")
+
 
 
 wn.listen()
